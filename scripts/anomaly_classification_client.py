@@ -5,6 +5,7 @@ from birl_online_classification.srv import (
     BirlOnlineClassificationRequest,
     BirlOnlineClassificationResponse,
 )
+from std_msgs.msg import MultiArrayDimension
 import numpy as np
 
 if __name__ == '__main__':
@@ -16,7 +17,14 @@ if __name__ == '__main__':
 
     req = BirlOnlineClassificationRequest()
     req.timeseries_matrix.data = matrix.flatten().tolist()[0]
-    req.timeseries_matrix.layout.dim = [row_size, col_size]
-    resp = hmm_state_switch_proxy(req)
 
-    rospy.loginfo(resp)
+    mad = MultiArrayDimension()
+    mad.size = row_size
+    mad.stride = col_size
+    req.timeseries_matrix.layout.dim = [mad]
+
+    ocp = rospy.ServiceProxy('BirlOnlineClassification', BirlOnlineClassification)
+
+    resp = ocp(req)
+
+    print resp
