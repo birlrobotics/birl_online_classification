@@ -1,0 +1,4 @@
+std_msgs/Float64MultiArray flatten_matrix
+---
+std_msgs/Int16 label
+std_msgs/Float64 confidence
