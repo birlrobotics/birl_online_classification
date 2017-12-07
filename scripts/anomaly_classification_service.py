@@ -6,7 +6,6 @@ from birl_online_classification.srv import (
 )
 from birl_online_classification import anomaly_classifier
 import numpy as np
-import ipdb
 
 def service_cb(req):
     flatten_matrix = req.timeseries_matrix.data
@@ -14,7 +13,7 @@ def service_cb(req):
     col_size = req.timeseries_matrix.layout.dim[0].stride 
     matrix = np.matrix(flatten_matrix).reshape((row_size, col_size))
 
-    print matrix
+    print matrix.shape
  
     label, confidence = anomaly_classifier.run(matrix)
 
